@@ -1,64 +1,50 @@
 object WallService {
     private var posts = emptyArray<Post>()
 
-    fun add(
-        ownerId: Int,
-        fromId: Int,
-        createdBy: Int,
-        date: Int,
-        text: String,
-        replyOwnerId: Int,
-        replyPostId: Int,
-        friendsOnly: Boolean = false,
-        comments: Post.Comments,
-        copyright: String,
-        likes: Post.Likes,
-        reposts: Post.Reposts,
-        views: Post.Views,
-        postType: PostType,
-        signerId: Int,
-        canPin: Boolean = false,
-        canDelete: Boolean = false,
-        canEdit: Boolean = false,
-        isPinned: Boolean = false,
-        markedAsAds: Boolean = false,
-        isFavorite: Boolean = false,
-        postponedId: Int
-    ): Post {
+    fun add(post: Post): Post {
 
-        posts += Post(
-            id = generationId(),
-            ownerId,
-            fromId,
-            createdBy,
-            date,
-            text,
-            replyOwnerId,
-            replyPostId,
-            friendsOnly = false,
-            comments,
-            copyright,
-            likes,
-            reposts,
-            views,
-            postType,
-            signerId,
-            canPin = false,
-            canDelete = false,
-            canEdit = false,
-            isPinned = false,
-            markedAsAds = false,
-            isFavorite = false,
-            postponedId
-        )
+        val post = post.copy(id = generationId())
+        posts += post
+//        println(posts.last())
         return posts.last()
     }
 
-//    fun update(post: Post): Boolean {
-//        TODO()
-//    }
+    fun update(post: Post): Boolean {
+        val postId = post.component1()
+        val post1 = post
+        for ((index, post) in posts.withIndex()) {
+            if (post.id == postId) {
+                posts[index] = post.copy(
+                    fromId = post1.fromId,
+                    createdBy = post1.createdBy,
+                    text = post1.text,
+                    replyOwnerId = post1.replyOwnerId,
+                    replyPostId = post1.replyPostId,
+                    friendsOnly = post1.friendsOnly,
+                    comments = post1.comments,
+                    copyright = post1.copyright,
+                    likes = post1.likes,
+                    reposts = post1.reposts,
+                    views = post1.views,
+                    postType = post1.postType,
+                    signerId = post1.signerId,
+                    canPin = post1.canPin,
+                    canDelete = post1.canDelete,
+                    canEdit = post1.canEdit,
+                    isPinned = post1.isPinned,
+                    markedAsAds = post1.markedAsAds,
+                    isFavorite = post1.isFavorite,
+                    postponedId = post1.postponedId
+                )
+                println(posts[index])
+                return true
+            }
+        }
+        return false
 
-    private var memoryIdPost: Int = 0
+    }
+
+    private var memoryIdPost: Int = 1
 
     private fun generationId(): Int {
         memoryIdPost += 1
