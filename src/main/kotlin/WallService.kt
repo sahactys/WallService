@@ -54,9 +54,9 @@ object WallService {
         return posts.last()
     }
 
-    fun update(post: Post): Boolean {
-        TODO()
-    }
+//    fun update(post: Post): Boolean {
+//        TODO()
+//    }
 
     private var memoryIdPost: Int = 0
 
