@@ -1,7 +1,7 @@
 fun main() {
 
     val origin = Post(
-        id = 2,
+        id = 1,
         1,
         6,
         7,
