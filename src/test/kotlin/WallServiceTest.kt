@@ -146,6 +146,6 @@ class WallServiceTest {
                 postponedId = 1,
             )
         )
-         assertFalse(true)
+         assertFalse(result)
     }
 }
