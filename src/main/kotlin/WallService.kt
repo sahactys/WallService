@@ -38,7 +38,7 @@ object WallService {
                     isFavorite = post1.isFavorite,
                     postponedId = post1.postponedId
                 )
-                println(posts[index])
+//                println(posts[index])
                 return true
             }
         }
@@ -51,5 +51,13 @@ object WallService {
     private fun generationId(): Int {
         memoryIdPost += 1
         return memoryIdPost - 1
+    }
+
+    fun clearArr() {
+
+        posts = emptyArray()
+        memoryIdPost = 1
+
+
     }
 }
