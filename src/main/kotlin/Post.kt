@@ -1,3 +1,4 @@
+import Attachment.Attachments
 import java.security.CodeSource
 
 enum class PostType {
@@ -38,7 +39,8 @@ data class Post(
     val postponedId: Int,
     val postSource: PostSource,
     val geo : Geo,
-    val copyHistory : Array<Post>?
+    val copyHistory : Array<Post>?,
+    val attachments: Array<Attachments>?
 ) {
     data class Comments(
         val count: Int,

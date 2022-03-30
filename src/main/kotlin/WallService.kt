@@ -36,7 +36,11 @@ object WallService {
                     isPinned = post1.isPinned,
                     markedAsAds = post1.markedAsAds,
                     isFavorite = post1.isFavorite,
-                    postponedId = post1.postponedId
+                    postponedId = post1.postponedId,
+                    postSource = post1.postSource,
+                    geo = post1.geo,
+                    copyHistory = post1.copyHistory,
+                    attachments = post1.attachments
                 )
 //                println(posts[index])
                 return true
