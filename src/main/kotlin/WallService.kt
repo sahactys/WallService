@@ -1,14 +1,48 @@
 @file:Suppress("NAME_SHADOWING")
 
+class PostNotFoundException(message: String): RuntimeException(message)
+class ReasonNotFoundException(message: String): RuntimeException(message)
+class CommentNotFoundException(message: String): RuntimeException(message)
+
 object WallService {
     private var posts = emptyArray<Post>()
+    private var comments = emptyArray<Comment>()
+    private var reports = emptyArray<ReportComment>()
 
     fun add(post: Post): Post {
 
-        val post = post.copy(id = generationId())
+        val post = post.copy(id = generationIdPost())
         posts += post
-//        println(posts.last())
         return posts.last()
+    }
+
+    fun createComment(comment: Comment) : Boolean {
+        val comment = comment.copy(guid = generationIdComment())
+        val postId = comment.component2()
+        for ((index, post) in posts.withIndex()) {
+            if (post.id == postId) {
+                comments +=comment
+
+                return true
+            }
+        }
+        if (comments.isEmpty()) throw  PostNotFoundException ("no post with id $postId")
+        return false
+    }
+
+    fun reportingComment(report:ReportComment):Boolean{
+        val commentIdReporting = report.component2()
+        for((infix , comment) in comments.withIndex()){
+            if (comment.guid == commentIdReporting) {
+                if (report.reason in 0..8) {
+                    reports += report
+                    return true
+                }
+                else throw ReasonNotFoundException ("no reason with id ${report.reason}")
+            }
+        }
+        if (reports.isEmpty()) throw CommentNotFoundException("no comment with id $commentIdReporting")
+        return false
     }
 
     fun update(post: Post): Boolean {
@@ -42,7 +76,6 @@ object WallService {
                     copyHistory = post1.copyHistory,
                     attachments = post1.attachments
                 )
-//                println(posts[index])
                 return true
             }
         }
@@ -51,17 +84,26 @@ object WallService {
     }
 
     private var memoryIdPost: Int = 1
+    private var memoryIdComment: Int = 1
 
-    private fun generationId(): Int {
+    private fun generationIdPost(): Int {
         memoryIdPost += 1
         return memoryIdPost - 1
     }
 
-    fun clearArr() {
+    private fun generationIdComment(): Int {
+        memoryIdComment += 1
+        return memoryIdComment - 1
+    }
 
+
+
+
+    fun clearArr() {
+        reports = emptyArray()
+        comments = emptyArray()
+        memoryIdComment = 1
         posts = emptyArray()
         memoryIdPost = 1
-
-
     }
 }
